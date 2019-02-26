@@ -26,6 +26,13 @@ import org.neodatis.odb.impl.core.query.criteria.CriteriaQuery;
 import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
+/**
+ * 
+ * @author Aitor Garcia
+ * @version Version 1, 2019
+ * Esta clse se encarga del mantenimiento de los datos de departamento, se realizan altas, bajas, modificaciones y consultas
+ *
+ */
 public class OperacionesDepart extends JDialog {
 	private static final String BBDD="Empleados.dat";
 	private JPanel contentPane;

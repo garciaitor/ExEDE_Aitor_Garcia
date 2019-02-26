@@ -22,6 +22,13 @@ import org.neodatis.odb.core.query.criteria.Where;
 import org.neodatis.odb.impl.core.query.criteria.CriteriaQuery;
 
 @SuppressWarnings("serial")
+/**
+ * 
+ * @author Aitor Garcia
+ * @version Version 1, 2019
+ * Esta clase se encarga del mantenimiento de los datos de los empleados, se realizan altas, bajas, modificaciones y consultas
+ *
+ */
 public class OperacionesEmple extends JDialog {
 	private static final String BBDD="Empleados.dat";
 	private JPanel contentPane;

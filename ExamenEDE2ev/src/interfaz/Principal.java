@@ -15,6 +15,12 @@ import javax.swing.border.LineBorder;
 import javax.swing.SwingConstants;
 
 @SuppressWarnings("serial")
+/**
+ * 
+ * @author Aitor Garcia
+ * @version Version 1, 2019
+ *
+ */
 public class Principal extends JFrame {
 	private JPanel contentPane;
 
