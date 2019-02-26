@@ -32,7 +32,7 @@ public class OperacionesDepart extends JDialog {
 	private JTextField txNumDepart;
 	private JTextField txNombre;
 	private JTextField txPoblacion;
-	private JLabel lblRespuesta;
+	private OperacionesDepartData data = new OperacionesDepartData();
 
 	public OperacionesDepart() {
 		setTitle("Operaciones departamentos.");
@@ -83,11 +83,11 @@ public class OperacionesDepart extends JDialog {
 		btnConsultar.setBounds(292, 69, 89, 23);
 		contentPane.add(btnConsultar);
 		
-		lblRespuesta = new JLabel("---------------------------------------------------------------------");
-		lblRespuesta.setFont(new Font("Dialog", Font.BOLD, 14));
-		lblRespuesta.setForeground(Color.RED);
-		lblRespuesta.setBounds(34, 169, 345, 14);
-		contentPane.add(lblRespuesta);
+		data.lblRespuesta = new JLabel("---------------------------------------------------------------------");
+		data.lblRespuesta.setFont(new Font("Dialog", Font.BOLD, 14));
+		data.lblRespuesta.setForeground(Color.RED);
+		data.lblRespuesta.setBounds(34, 169, 345, 14);
+		contentPane.add(data.lblRespuesta);
 		
 		JButton btnInsertarDepartamento = new JButton("Insertar Departamento");
 		btnInsertarDepartamento.setMargin(new Insets(2, 4, 2, 4));
@@ -125,10 +125,10 @@ public class OperacionesDepart extends JDialog {
 					insertarDep(odb);
 				}
 				catch(NumberFormatException e){
-					lblRespuesta.setText("Error, numero de departamento erroneo");
+					data.lblRespuesta.setText("Error, numero de departamento erroneo");
 				}
 				catch(NumDepartDuplicado e){
-					lblRespuesta.setText("Error, "+e.getMessage());
+					data.lblRespuesta.setText("Error, "+e.getMessage());
 				}
 				finally{
 					odb.close();
@@ -147,13 +147,13 @@ public class OperacionesDepart extends JDialog {
 						pob=txPoblacion.getText();
 						odb.store(new Departamento(num,nom,pob));
 						
-						lblRespuesta.setText("Departamento insertado correctamente");
+						data.lblRespuesta.setText("Departamento insertado correctamente");
 					}
 					else
-						lblRespuesta.setText("Error, poblacion vacia");
+						data.lblRespuesta.setText("Error, poblacion vacia");
 				}
 				else
-					lblRespuesta.setText("Error, nombre de departamento vacio");
+					data.lblRespuesta.setText("Error, nombre de departamento vacio");
 			}
 		});
 		
@@ -167,7 +167,7 @@ public class OperacionesDepart extends JDialog {
 					borrarDep(odb);
 				}
 				catch(NumberFormatException e){
-					lblRespuesta.setText("Error, numero de departamento erroneo");
+					data.lblRespuesta.setText("Error, numero de departamento erroneo");
 				}
 				finally{
 					odb.close();
@@ -188,10 +188,10 @@ public class OperacionesDepart extends JDialog {
 						odb.store(e);
 					}
 					odb.delete(dep.getFirst());
-					lblRespuesta.setText("Departamento borrado correctamente");
+					data.lblRespuesta.setText("Departamento borrado correctamente");
 				}
 				else
-					lblRespuesta.setText("Error, el departamento no existe");
+					data.lblRespuesta.setText("Error, el departamento no existe");
 			}
 		});
 		
@@ -202,17 +202,17 @@ public class OperacionesDepart extends JDialog {
 				ODB odb=ODBFactory.open(BBDD);
 				
 				try{
-					consultarDep(odb);
+					consultarDep(odb, 0, 0);
 				}
 				catch(NumberFormatException e){
-					lblRespuesta.setText("Error, numero de departamento erroneo");
+					data.lblRespuesta.setText("Error, numero de departamento erroneo");
 				}
 				finally{
 					odb.close();
 				}
 			}
 
-			private void consultarDep(ODB odb) {
+			private String consultarDep(ODB odb, int newParam, int newParam2) {
 				int num;
 				num=Integer.parseInt(txNumDepart.getText());
 				IQuery query=new CriteriaQuery(Departamento.class, Where.equal("dept_no", num));
@@ -220,10 +220,11 @@ public class OperacionesDepart extends JDialog {
 				if(!dep.isEmpty()){
 					txNombre.setText(dep.getFirst().getDnombre());
 					txPoblacion.setText(dep.getFirst().getLoc());
-					lblRespuesta.setText("Consulta satisfactoria");
+					data.lblRespuesta.setText("Consulta satisfactoria");
 				}
 				else
-					lblRespuesta.setText("Error, el departamento no existe");
+					data.lblRespuesta.setText("Error, el departamento no existe");
+				return null;
 			}
 		});
 		
@@ -237,7 +238,7 @@ public class OperacionesDepart extends JDialog {
 					modificarDep(odb);
 				}
 				catch(NumberFormatException e){
-					lblRespuesta.setText("Error, numero de departamento erroneo");
+					data.lblRespuesta.setText("Error, numero de departamento erroneo");
 				}
 				finally{
 					odb.close();
@@ -257,16 +258,16 @@ public class OperacionesDepart extends JDialog {
 							depar.setDnombre(txNombre.getText());
 							depar.setLoc(txPoblacion.getText());
 							odb.store(depar);
-							lblRespuesta.setText("Modifcacion satisfactoria");
+							data.lblRespuesta.setText("Modifcacion satisfactoria");
 						}
 						else
-							lblRespuesta.setText("Error, poblacion vacia");
+							data.lblRespuesta.setText("Error, poblacion vacia");
 					}
 					else
-						lblRespuesta.setText("Error, nombre de departamento vacio");
+						data.lblRespuesta.setText("Error, nombre de departamento vacio");
 				}
 				else
-					lblRespuesta.setText("Error, el departamento no existe");
+					data.lblRespuesta.setText("Error, el departamento no existe");
 			}
 		});
 	}
